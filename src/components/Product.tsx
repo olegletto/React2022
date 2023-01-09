@@ -25,7 +25,7 @@ export function Product({ product }: ProductProps) {
             >{details ? 'Hide details' : 'Show details'}</button>
             {details && <div>
                 <p>{product.description}</p>
-                <p>Rate: <span style={{fontWeight: 800}}>{product.rating.rate}</span></p>
+                <p>Rate: <span style={{fontWeight: 800}}>{product?.rating?.rate}</span></p>
             </div>
             }
         </div>

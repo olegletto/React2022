@@ -4,7 +4,7 @@ import { IProduct } from '../model'
 import ErrorMessage from './ErrorMessage'
 
 const productData: IProduct = {
-    title: 'test product',
+    title: '',
     price: 13.5,
     description: 'lorem ipsum set',
     image: 'https://i.pravatar.cc',
@@ -15,13 +15,18 @@ const productData: IProduct = {
     }
 }
 
-export default function CreateProduct() {
+interface CreateProductProps {
+    onCreate: (product: IProduct) => void
+}
+
+export default function CreateProduct({onCreate}: CreateProductProps) {
 
     const [value, setValue] = useState('')
     const [error, setError] = useState('')
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault()
+        setError('')
 
         if (value.trim().length === 0) {
             setError('Please enter valid title')
@@ -29,8 +34,9 @@ export default function CreateProduct() {
         }
 
         productData.title = value
+        const response = await axios.post<IProduct>('https://fakestoreapi.com/products', productData)
 
-        const response = await axios.post<IProduct>('https://fakestoreapi.com/products')
+        onCreate(response.data)
     }
 
 
